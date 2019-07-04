@@ -3,6 +3,7 @@ import './App.css';
 import Loading from './components/Loading';
 import Card from './components/Card';
 import Grid from './components/Grid';
+import { Select, Option, Label } from './components/Control';
 
 const DATA_ENDPOINT = 'http://localhost:8000/api/products';
 
@@ -15,17 +16,20 @@ function App() {
     const [sortBy, setSortBy] = useState('id');
     const [pageNo, setPageNo] = useState(0);
 
-    const fetchItems =  useCallback(async () => {
+    const fetchItems = useCallback(async () => {
+        const order = sortBy === 'date' ? 'desc' : 'asc';
+        const url = `${DATA_ENDPOINT}?_sort=${sortBy}&_order=${order}&_page=${pageNo}&_limit=${LIMIT}`;
         toggleLoading(true);
-        const result = await fetch(
-            `${DATA_ENDPOINT}?_sort=${sortBy}&_page=${pageNo}&_limit=${LIMIT}`
-        );
+        const result = await fetch(url);
         const products = await result.json();
         setItems(products);
-        console.log({products});
+        console.log({ url, products });
         toggleLoading(false);
     }, [sortBy, pageNo]);
 
+    const updateSort = event => {
+        setSortBy(event.target.value);
+    };
 
     useEffect(() => {
         fetchItems();
@@ -34,15 +38,26 @@ function App() {
     return (
         <div className="App">
             <h1>The Emoji Store</h1>
-            {
-              loading ? <Loading /> : <Grid>
-                 { items.length ? items.map((emoji) => 
-                     <Card key={emoji.id} emoji={emoji}/>
-                     ) : null
-                 } 
-                <Loading bottom/>
-              </Grid>
-            }
+            <Label>Sort By</Label>
+            <Select value={sortBy} onChange={updateSort}>
+                <Option value="price">Price</Option>
+                <Option value="size">Size</Option>
+                <Option selected value="id">
+                    Id
+                </Option>
+            </Select>
+            {loading ? (
+                <Loading />
+            ) : (
+                <Grid>
+                    {items.length
+                        ? items.map(emoji => (
+                              <Card key={emoji.id} emoji={emoji} />
+                          ))
+                        : null}
+                    <Loading bottom />
+                </Grid>
+            )}
         </div>
     );
 }
