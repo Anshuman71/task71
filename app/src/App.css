@@ -1,22 +1,9 @@
 
 .App {
   position: relative;
-  max-width: 80vw;
   margin: 0 auto;
+  padding: 10px;
   min-height: 100vh;
-}
-
-.loading {
-  font-size: 18px;
-  width: 80px;
-  margin: 0 auto;
-}
-
-.loading-bottom {
-  position: absolute;
-  bottom: 20px;
-  width: 80px;
-  left: calc(50vw - 40px);
 }
 
 .App-header {
