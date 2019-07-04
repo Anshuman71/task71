@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import Loading from './components/Loading';
+import Card from './components/Card';
+import Grid from './components/Grid';
 
-const DATA_ENDPOINT = 'http://localhost:3000/api/products';
+const DATA_ENDPOINT = 'http://localhost:8000/api/products';
 
 const LIMIT = 20;
 
@@ -20,6 +22,7 @@ function App() {
         );
         const products = await result.json();
         setItems(products);
+        console.log({products});
         toggleLoading(false);
     }, [sortBy, pageNo]);
 
@@ -32,9 +35,13 @@ function App() {
         <div className="App">
             <h1>The Emoji Store</h1>
             {
-              loading ? <Loading /> : <div>
+              loading ? <Loading /> : <Grid>
+                 { items.length ? items.map((emoji) => 
+                     <Card key={emoji.id} emoji={emoji}/>
+                     ) : null
+                 } 
                 <Loading bottom/>
-              </div>
+              </Grid>
             }
         </div>
     );
