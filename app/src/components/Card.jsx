@@ -8,13 +8,18 @@ const CardBox = styled.div`
     justify-content: space-around;
     align-items: center;
     height: 150px;
-    min-width: 120px;
+    width: 300px;
     box-shadow: 0px 4px 8px #00000091;
     margin: 10px;
     margin-top: 0px;
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 5px;
+    transition: all 300ms;
+    &:hover {
+        transform: scale(1.05) translateY(-5px);
+        box-shadow: 0px 8px 9px #00000099;        
+    }
 `;
 
 const Face = styled.p`
