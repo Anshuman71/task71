@@ -7,6 +7,7 @@ import { Select, Option, Label } from './components/Control';
 import Header from './components/Header';
 
 const DATA_ENDPOINT = 'http://localhost:8000/api/products';
+const IMAGE_ENDPOINT = 'http://localhost:8000/ads/';
 
 const LIMIT = 20;
 
@@ -25,7 +26,8 @@ function App() {
         if (products.length < 20) {
             setHasMore(false);
         }
-        setItems(prevState => [...prevState, ...products]);
+        const src = `${IMAGE_ENDPOINT}?r=${pageNo}`;
+        setItems(prevState => [...prevState, ...products, src]);
         toggleLoading(false);
     }, [pageNo, sortBy]);
 
@@ -36,11 +38,13 @@ function App() {
             hasMore &&
             !loading
         ) {
-                setPageNo(pageNo + 1);
+            setPageNo(pageNo + 1);
         }
     };
 
     const updateSort = event => {
+        setPageNo(1);
+        setItems([]);
         setSortBy(event.target.value);
     };
 
@@ -52,7 +56,6 @@ function App() {
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
-
 
     return (
         <div className="App">
@@ -70,9 +73,18 @@ function App() {
             {loading && hasMore ? <Loading bottom /> : null}
             {items.length ? (
                 <Grid>
-                    {items.map(emoji => (
-                        <Card key={emoji.id} emoji={emoji} />
-                    ))}
+                    {items.map((emoji, index) =>
+                        typeof emoji === 'string' ? (
+                            <img
+                                alt="ad"
+                                key={index}
+                                className="ad"
+                                src={emoji}
+                            />
+                        ) : (
+                            <Card key={emoji.id} emoji={emoji} />
+                        )
+                    )}
                 </Grid>
             ) : null}
             {!hasMore ? <EndOfList /> : null}
