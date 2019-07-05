@@ -12,6 +12,7 @@ export default styled.header`
     z-index: 10;
     color: white;
     position: sticky;
+    box-shadow: 0px 3px 9px #00000091;
     background-color: rgb(255, 4, 118);
 
     @media only screen and (max-width: 768px) {
