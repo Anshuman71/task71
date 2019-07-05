@@ -4,15 +4,27 @@ import styled, { keyframes } from 'styled-components';
 const LoadingTag = styled.p`
     margin: 0px;
     padding: 0px;
-    position: ${props => props.bottom ? 'absolute' : 'relative'};
+    position: absolute;
     width: 100px;
-    bottom: ${props => props.bottom ? '10px' : '0px'};
-    left: ${props => props.bottom ? 'calc(50vw - 50px)' : '0px'};
+    bottom: 10px;
+    left: calc(50vw - 50px);
 
 `;
 
-const Loading = ({ bottom }) => (
-    <LoadingTag bottom={bottom}>Loading ...</LoadingTag>
+const Loading = () => (
+    <LoadingTag >Loading ...</LoadingTag>
 );
+
+
+const Message = styled.div`
+    margin: 0px;
+    padding: 0px;
+    position:absolute; 
+    width: 150px;
+    bottom: 10px;
+    left: calc(50vw - 75px);
+`;
+
+export const EndOfList = () => <Message>~ end of catalogue ~</Message>
 
 export default Loading;
