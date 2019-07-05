@@ -4,10 +4,19 @@ export default styled.div`
     display: flex;
     flex-direction: row;
     align-content: flex-start;
-    padding: 10px 20px;
+    padding: 40px 10px;
     justify-content: center;
     align-items: center;
-    padding-bottom: 40px;
     flex-wrap: wrap;
-    min-height: 100vh;
+    width: 90vw;
+    margin: 0px auto;
+
+    @media only screen and (min-width: 900px) {
+        width: 768px;
+    }
+
+    @media screen and (min-width: 1200px) {
+        width: 1100px;
+    }
+    
 `;
