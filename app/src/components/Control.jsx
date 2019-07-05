@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const Select = styled.select`
     width: 150px;
-    padding: 5px;
+    padding: 3px;
     border: none;
+    background-color: white;
+    border-radius: 5px;
     font-size: 16px;
 `;
 
