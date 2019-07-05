@@ -15,37 +15,43 @@ function App() {
     const [items, setItems] = useState([]);
     const [loading, toggleLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
-    const [sortBy, setSortBy] = useState('id');
-    const [pageNo, setPageNo] = useState(1);
+    const [query, setQuery] = useState({ pageNo: 1, sortBy: 'id' });
 
     const fetchItems = useCallback(async () => {
-        const url = `${DATA_ENDPOINT}?_page=${pageNo}&_sort=${sortBy}&_limit=${LIMIT}`;
+        const url = `${DATA_ENDPOINT}?_page=${query.pageNo}&_sort=${
+            query.sortBy
+        }&_limit=${LIMIT}`;
         toggleLoading(true);
         const result = await fetch(url);
         const products = await result.json();
         if (products.length < 20) {
             setHasMore(false);
         }
-        const src = `${IMAGE_ENDPOINT}?r=${pageNo}`;
-        setItems(prevState => [...prevState, ...products, src]);
+        const src = `${IMAGE_ENDPOINT}?r=${query.pageNo}`;
+        setItems(prevState =>
+            query.pageNo === 1
+                ? [...products, src]
+                : [...prevState, ...products, src]
+        );
         toggleLoading(false);
-    }, [pageNo, sortBy]);
+    }, [query]);
 
     const handleScroll = () => {
         if (
-            window.scrollY + window.innerHeight ===
-                document.documentElement.offsetHeight &&
-            hasMore &&
-            !loading
+            ((window.scrollY || 1) + window.innerHeight ===
+                document.documentElement.offsetHeight) &&
+            (hasMore && items.length && !loading)
         ) {
-            setPageNo(pageNo + 1);
+            setQuery(prevState => ({
+                pageNo: prevState.pageNo + 1,
+                sortBy: prevState.sortBy
+            }));
         }
     };
 
     const updateSort = event => {
-        setPageNo(1);
         setItems([]);
-        setSortBy(event.target.value);
+        setQuery({ pageNo: 1, sortBy: event.target.value });
     };
 
     useEffect(() => {
