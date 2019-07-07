@@ -3,13 +3,9 @@ import './App.css';
 import Loading, { EndOfList } from './components/Loading';
 import Card from './components/Card';
 import Grid from './components/Grid';
+import { LIMIT, DATA_ENDPOINT, IMAGE_ENDPOINT } from './constants';
 import { Select, Option, Label } from './components/Control';
 import Header from './components/Header';
-
-const DATA_ENDPOINT = 'http://localhost:8000/api/products';
-const IMAGE_ENDPOINT = 'http://localhost:8000/ads/';
-
-const LIMIT = 20;
 
 function App() {
     const [items, setItems] = useState([]);
@@ -41,7 +37,6 @@ function App() {
         const url = `${DATA_ENDPOINT}?_page=${query.pageNo + 1}&_sort=${
             query.sortBy
         }&_limit=${LIMIT}`;
-        console.log({ urlBuffer: url });
         const result = await fetch(url);
         const products = await result.json();
         if (products.length < 20) {
