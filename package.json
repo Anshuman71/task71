@@ -13,7 +13,8 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "start": "concurrently \"json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js --port 8000\" \"react-scripts start\"",
+    "start-prod": "concurrently \"json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js --port 8000\" \"serve -s build\"",
+    "start-dev": "concurrently \"json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js --port 8000\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -36,6 +37,7 @@
   "author": "",
   "license": "",
   "devDependencies": {
-    "concurrently": "^4.1.1"
+    "concurrently": "^4.1.1",
+    "serve": "^11.0.2"
   }
 }
