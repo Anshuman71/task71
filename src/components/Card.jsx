@@ -40,6 +40,7 @@ const Card = ({ emoji: { price, face, date, size } }) => {
     const then = new Date(Date.parse(date));
     let dateText = '';
     const difference = now.getDate() - then.getDate();
+    //if older than a week show date
     if(difference >= 7 || difference < 0){
         dateText = `Added on ${date.slice(4, 10)}`;
     } else {
