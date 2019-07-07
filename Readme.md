@@ -5,8 +5,8 @@ Stpes to setup locally
 ----
 1. `yarn`  or  `npm install`
 2. `yarn build`
-3. `yarn start-prod` to start production build
-4. `yarn start-dev` to start development build
+3. `yarn start-prod` to start production build and visit `http://localhost:5000`
+4. `yarn start-dev` to start development build and visit `http://localhost:3000`
 
 >No changes have been made to the `server`
 
