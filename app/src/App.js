@@ -13,6 +13,7 @@ const LIMIT = 20;
 
 function App() {
     const [items, setItems] = useState([]);
+    const [buffer, setBuffer] = useState([]);
     const [loading, toggleLoading] = useState(true);
     const [hasMore, setHasMore] = useState(true);
     const [query, setQuery] = useState({ pageNo: 1, sortBy: 'id' });
@@ -36,16 +37,41 @@ function App() {
         toggleLoading(false);
     }, [query]);
 
+    const fetchBuffer = async () => {
+        const url = `${DATA_ENDPOINT}?_page=${query.pageNo + 1}&_sort=${
+            query.sortBy
+        }&_limit=${LIMIT}`;
+        console.log({ urlBuffer: url });
+        const result = await fetch(url);
+        const products = await result.json();
+        if (products.length < 20) {
+            setHasMore(false);
+        }
+        const src = `${IMAGE_ENDPOINT}?r=${query.pageNo + 1}`;
+        setBuffer([...products, src]);
+    };
+
+    useEffect(() => {
+        if(!loading){
+            fetchBuffer();
+        }
+    }, [loading]);
+
     const handleScroll = () => {
         if (
             ((window.scrollY || 1) + window.innerHeight ===
                 document.documentElement.offsetHeight) &&
             (hasMore && items.length && !loading)
         ) {
-            setQuery(prevState => ({
-                pageNo: prevState.pageNo + 1,
-                sortBy: prevState.sortBy
-            }));
+            if(buffer.length){
+                setItems(prevState => [...prevState, ...buffer]);
+                setBuffer([]);
+            } else {
+                setQuery(prevState => ({
+                    pageNo: prevState.pageNo + 2,
+                    sortBy: prevState.sortBy
+                }));
+            }
         }
     };
 
