@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 const LoadingTag = styled.p`
     margin: 0px;
@@ -19,7 +19,6 @@ const Loaders = styled.span`
     &:before {
         content: '...';
     }
-
     @keyframes extend {
         0% {
             width: 0.25em;
