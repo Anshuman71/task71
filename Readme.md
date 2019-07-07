@@ -1,7 +1,7 @@
 The Emoji Store
 ====
 
-Stpes to setup locally
+Steps to setup locally
 ----
 1. `yarn`  or  `npm install`
 2. `yarn build`
@@ -17,7 +17,7 @@ Stpes to setup locally
 I've used the new React feature `hooks` to keep the logic clean and simple
 
 
-3-rd party packages
+3rd party packages
 ---
 - `styled-components` for styling
 - `serve` to serve the build
