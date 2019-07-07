@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './App.css';
 import Loading, { EndOfList } from './components/Loading';
 import Card from './components/Card';
 import Grid from './components/Grid';
 import { LIMIT, DATA_ENDPOINT, IMAGE_ENDPOINT } from './constants';
 import { Select, Option, Label } from './components/Control';
 import Header from './components/Header';
+import './App.css';
 
 function App() {
     const [items, setItems] = useState([]);
@@ -14,6 +14,7 @@ function App() {
     const [hasMore, setHasMore] = useState(true);
     const [query, setQuery] = useState({ pageNo: 1, sortBy: 'id' });
 
+    //Fetch products to the main grid list of items
     const fetchItems = useCallback(async () => {
         const url = `${DATA_ENDPOINT}?_page=${query.pageNo}&_sort=${
             query.sortBy
@@ -33,6 +34,7 @@ function App() {
         toggleLoading(false);
     }, [query]);
 
+    //Fetch products to buffer, to be consumed
     const fetchBuffer = async () => {
         const url = `${DATA_ENDPOINT}?_page=${query.pageNo + 1}&_sort=${
             query.sortBy
@@ -46,12 +48,14 @@ function App() {
         setBuffer([...products, src]);
     };
 
+    //Fill the buffer if no data is loading currently
     useEffect(() => {
         if(!loading){
             fetchBuffer();
         }
     }, [loading]);
 
+    //Handle scroll events, fetch new page or consume the buffer if available
     const handleScroll = () => {
         if (
             ((window.scrollY || 1) + window.innerHeight ===
@@ -70,16 +74,19 @@ function App() {
         }
     };
 
+    //update the grid to sorted items
     const updateSort = event => {
         setItems([]);
         setQuery({ pageNo: 1, sortBy: event.target.value });
     };
 
+    //Add/remove listener for scroll events
     useEffect(() => {
         window.addEventListener('scroll', handleScroll, false);
         return () => window.removeEventListener('scroll', handleScroll, false);
     });
 
+    //Fetch items to the grid whenever dependencies of fetchItems() changes
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
